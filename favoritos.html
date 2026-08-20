@@ -1,0 +1,421 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Meus Favoritos - Livraria Multicultural</title>
+    <style>
+        /* --- ESTILOS GERAIS --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        /* --- CABEÇALHO --- */
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: #ecf0f1;
+            text-decoration: none;
+        }
+
+        /* Barra de Pesquisa */
+        .search-container {
+            flex: 1;
+            max-width: 500px;
+            display: flex;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 0.6rem 1rem;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-container button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 0 1.2rem;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .search-container button:hover {
+            background-color: #c0392b;
+        }
+
+        /* Ações do Cabeçalho */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .btn-login-header {
+            background-color: transparent;
+            border: 1px solid white;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-login-header:hover {
+            background-color: white;
+            color: #2c3e50;
+        }
+
+        /* Menu Hambúrguer */
+        .hamburger-menu {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .hamburger-icon {
+            font-size: 1.8rem;
+            user-select: none;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 40px;
+            background-color: white;
+            color: #333;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            border-radius: 6px;
+            width: 220px;
+            z-index: 100;
+            overflow: hidden;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.8rem 1.2rem;
+            text-decoration: none;
+            color: #333;
+            border-bottom: 1px solid #eee;
+            transition: background 0.2s;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #f1f1f1;
+            color: #e74c3c;
+        }
+
+        /* --- CONTEÚDO PRINCIPAL (FAVORITOS) --- */
+        main {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+            min-height: 75vh;
+        }
+
+        .page-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            flex-wrap: wrap;
+            gap: 1rem;
+        }
+
+        .section-title {
+            font-size: 1.8rem;
+            color: #2c3e50;
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .favorites-count {
+            font-size: 1rem;
+            color: #718096;
+            font-weight: normal;
+        }
+
+        /* Vitrine de Livros Favoritos */
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .book-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            text-align: center;
+            position: relative;
+            display: flex;
+            flex-direction: column;
+            justify-content: space-between;
+        }
+
+        .btn-remove-favorite {
+            position: absolute;
+            top: 10px;
+            right: 10px;
+            background: rgba(255, 255, 255, 0.9);
+            border: 1px solid #e74c3c;
+            color: #e74c3c;
+            border-radius: 50%;
+            width: 32px;
+            height: 32px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            font-size: 1rem;
+            transition: all 0.2s;
+        }
+
+        .btn-remove-favorite:hover {
+            background-color: #e74c3c;
+            color: white;
+        }
+
+        .book-cover {
+            height: 180px;
+            background-color: #e2e8f0;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #718096;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+
+        .book-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+            color: #2c3e50;
+        }
+
+        .book-card .author {
+            font-size: 0.85rem;
+            color: #718096;
+            margin-bottom: 0.5rem;
+        }
+
+        .book-card .price {
+            color: #e74c3c;
+            font-weight: bold;
+            font-size: 1.1rem;
+            margin-bottom: 1rem;
+        }
+
+        .card-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 0.5rem;
+        }
+
+        .btn-buy {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 0.6rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+            font-weight: bold;
+            transition: background 0.2s;
+        }
+
+        .btn-buy:hover {
+            background-color: #219653;
+        }
+
+        /* Mensagem de Lista Vazia */
+        .empty-favorites {
+            display: none;
+            text-align: center;
+            padding: 4rem 1rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+        }
+
+        .empty-favorites p {
+            font-size: 1.2rem;
+            color: #718096;
+            margin-bottom: 1.5rem;
+        }
+
+        .btn-explore {
+            display: inline-block;
+            background-color: #2c3e50;
+            color: white;
+            padding: 0.7rem 1.5rem;
+            text-decoration: none;
+            border-radius: 4px;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .btn-explore:hover {
+            background-color: #34495e;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CABEÇALHO -->
+    <header>
+        <a href="index.html" class="logo">📚 Multicultural</a>
+        
+        <div class="search-container">
+            <input type="text" placeholder="Pesquisar nos seus favoritos...">
+            <button>Buscar</button>
+        </div>
+
+        <div class="header-actions">
+            <a href="index.html" class="btn-login-header">Início</a>
+            
+            <div class="hamburger-menu" onclick="toggleMenu()">
+                <div class="hamburger-icon">☰</div>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <a href="carrinho.html">🛒 Meu Carrinho</a>
+                    <a href="favoritos.html">⭐ Favoritos</a>
+                    <a href="#">💳 Métodos de Pagamento</a>
+                    <a href="#">📦 Meus Pedidos</a>
+                    <a href="#">⚙️ Configurações</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main>
+        <div class="page-header">
+            <h2 class="section-title">
+                ⭐ Meus Favoritos 
+                <span class="favorites-count" id="favCount">(3 itens)</span>
+            </h2>
+        </div>
+
+        <!-- Grade de Favoritos -->
+        <div class="book-grid" id="bookGrid">
+            
+            <!-- Livro 1 -->
+            <div class="book-card">
+                <button class="btn-remove-favorite" onclick="removerFavorito(this)" title="Remover dos Favoritos">✕</button>
+                <div>
+                    <div class="book-cover">Capa do Livro</div>
+                    <h3>Cem Anos de Solidão</h3>
+                    <p class="author">Gabriel García Márquez</p>
+                    <p class="price">R$ 49,90</p>
+                </div>
+                <div class="card-actions">
+                    <button class="btn-buy" onclick="alert('Item adicionado ao carrinho!')">Adicionar ao Carrinho</button>
+                </div>
+            </div>
+
+            <!-- Livro 2 -->
+            <div class="book-card">
+                <button class="btn-remove-favorite" onclick="removerFavorito(this)" title="Remover dos Favoritos">✕</button>
+                <div>
+                    <div class="book-cover">Capa do Livro</div>
+                    <h3>O Pequeno Príncipe</h3>
+                    <p class="author">Antoine de Saint-Exupéry</p>
+                    <p class="price">R$ 29,90</p>
+                </div>
+                <div class="card-actions">
+                    <button class="btn-buy" onclick="alert('Item adicionado ao carrinho!')">Adicionar ao Carrinho</button>
+                </div>
+            </div>
+
+            <!-- Livro 3 -->
+            <div class="book-card">
+                <button class="btn-remove-favorite" onclick="removerFavorito(this)" title="Remover dos Favoritos">✕</button>
+                <div>
+                    <div class="book-cover">Capa do Livro</div>
+                    <h3>Torto Arado</h3>
+                    <p class="author">Itamar Vieira Junior</p>
+                    <p class="price">R$ 54,90</p>
+                </div>
+                <div class="card-actions">
+                    <button class="btn-buy" onclick="alert('Item adicionado ao carrinho!')">Adicionar ao Carrinho</button>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- Estado Vazio (exibido quando todos os itens forem removidos) -->
+        <div class="empty-favorites" id="emptyState">
+            <p>Sua lista de favoritos está vazia no momento.</p>
+            <a href="index.html" class="btn-explore">Explorar Catálogo</a>
+        </div>
+    </main>
+
+    <!-- SCRIPTS -->
+    <script>
+        // Abrir/Fechar Menu Hambúrguer
+        function toggleMenu() {
+            const menu = document.getElementById('dropdownMenu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        // Fechar menu ao clicar fora
+        window.onclick = function(event) {
+            if (!event.target.matches('.hamburger-icon') && !event.target.closest('.dropdown-menu')) {
+                document.getElementById('dropdownMenu').style.display = 'none';
+            }
+        }
+
+        // Remover item dos favoritos e atualizar o contador
+        function removerFavorito(botao) {
+            const card = botao.closest('.book-card');
+            card.remove();
+            atualizarContador();
+        }
+
+        // Atualizar contador e alternar para estado vazio se zerar
+        function atualizarContador() {
+            const grid = document.getElementById('bookGrid');
+            const total = grid.children.length;
+            const favCount = document.getElementById('favCount');
+            const emptyState = document.getElementById('emptyState');
+
+            favCount.textContent = `(${total} ${total === 1 ? 'item' : 'itens'})`;
+
+            if (total === 0) {
+                grid.style.display = 'none';
+                emptyState.style.display = 'block';
+            }
+        }
+    </script>
+</body>
+</html>
