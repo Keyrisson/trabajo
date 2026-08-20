@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Carrinho | Livraria Multicultural</title>
+    <style>
+        /* Estilos CSS integrados */
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            padding: 20px;
+            color: #333;
+        }
+
+        .container {
+            max-width: 800px;
+            margin: 0 auto;
+            background: #fff;
+            padding: 20px;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        h1 { color: #2c3e50; }
+
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 20px;
+        }
+
+        th, td {
+            padding: 12px;
+            text-align: left;
+            border-bottom: 1px solid #ddd;
+        }
+
+        .btn-remove {
+            color: red;
+            cursor: pointer;
+            border: none;
+            background: none;
+        }
+
+        .summary {
+            margin-top: 20px;
+            text-align: right;
+            font-size: 1.2rem;
+        }
+
+        .btn-finalizar {
+            background-color: #27ae60;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 5px;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+    </style>
+</head>
+<body>
+
+<div class="container">
+    <a href="index.html">← Voltar para a loja</a>
+    <h1>Meu Carrinho</h1>
+    
+    <table>
+        <thead>
+            <tr>
+                <th>Produto</th>
+                <th>Preço</th>
+                <th>Quantidade</th>
+                <th>Ação</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr>
+                <td>Cem Anos de Solidão</td>
+                <td>R$ 49,90</td>
+                <td><input type="number" value="1" min="1" style="width: 50px;"></td>
+                <td><button class="btn-remove">Remover</button></td>
+            </tr>
+        </tbody>
+    </table>
+
+    <div class="summary">
+        <p><strong>Total: R$ 49,90</strong></p>
+        <button class="btn-finalizar">Finalizar Compra</button>
+    </div>
+</div>
+
+</body>
+</html>
