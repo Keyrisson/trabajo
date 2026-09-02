@@ -1,0 +1,708 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cem Anos de Solidão - Livraria Multicultural</title>
+    <style>
+        /* --- ESTILOS GERAIS --- */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+        }
+
+        body {
+            background-color: #f9f9f9;
+            color: #333;
+        }
+
+        /* --- CABEÇALHO --- */
+        header {
+            background-color: #2c3e50;
+            color: white;
+            padding: 1rem 2rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+        }
+
+        .logo {
+            font-size: 1.5rem;
+            font-weight: bold;
+            letter-spacing: 1px;
+            color: #ecf0f1;
+            text-decoration: none;
+        }
+
+        /* Barra de Pesquisa */
+        .search-container {
+            flex: 1;
+            max-width: 500px;
+            display: flex;
+        }
+
+        .search-container input {
+            width: 100%;
+            padding: 0.6rem 1rem;
+            border: none;
+            border-radius: 4px 0 0 4px;
+            font-size: 1rem;
+            outline: none;
+        }
+
+        .search-container button {
+            background-color: #e74c3c;
+            color: white;
+            border: none;
+            padding: 0 1.2rem;
+            border-radius: 0 4px 4px 0;
+            cursor: pointer;
+            font-weight: bold;
+            transition: background 0.3s;
+        }
+
+        .search-container button:hover {
+            background-color: #c0392b;
+        }
+
+        /* Ações do Cabeçalho */
+        .header-actions {
+            display: flex;
+            align-items: center;
+            gap: 1.5rem;
+        }
+
+        .btn-login-header {
+            background-color: transparent;
+            border: 1px solid white;
+            color: white;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            text-decoration: none;
+            transition: all 0.3s;
+        }
+
+        .btn-login-header:hover {
+            background-color: white;
+            color: #2c3e50;
+        }
+
+        /* Menu Hambúrguer */
+        .hamburger-menu {
+            position: relative;
+            cursor: pointer;
+        }
+
+        .hamburger-icon {
+            font-size: 1.8rem;
+            user-select: none;
+        }
+
+        .dropdown-menu {
+            display: none;
+            position: absolute;
+            right: 0;
+            top: 40px;
+            background-color: white;
+            color: #333;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.15);
+            border-radius: 6px;
+            width: 220px;
+            z-index: 100;
+            overflow: hidden;
+        }
+
+        .dropdown-menu a {
+            display: block;
+            padding: 0.8rem 1.2rem;
+            text-decoration: none;
+            color: #333;
+            border-bottom: 1px solid #eee;
+            transition: background 0.2s;
+        }
+
+        .dropdown-menu a:hover {
+            background-color: #f1f1f1;
+            color: #e74c3c;
+        }
+
+        /* --- CONTEÚDO PRINCIPAL (PRODUTO) --- */
+        main {
+            padding: 2rem;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        /* Navegação em migalhas (Breadcrumb) */
+        .breadcrumb {
+            font-size: 0.9rem;
+            color: #718096;
+            margin-bottom: 1.5rem;
+        }
+
+        .breadcrumb a {
+            color: #2c3e50;
+            text-decoration: none;
+        }
+
+        .breadcrumb a:hover {
+            text-decoration: underline;
+        }
+
+        /* Layout do Detalhe do Produto */
+        .product-container {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(320px, 1fr));
+            gap: 2.5rem;
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        /* Galeria / Imagem */
+        .product-gallery {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .main-cover {
+            width: 100%;
+            max-width: 320px;
+            height: 420px;
+            background-color: #e2e8f0;
+            border-radius: 6px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.2rem;
+            color: #718096;
+            font-weight: bold;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+        }
+
+        /* Informações do Produto */
+        .product-info {
+            display: flex;
+            flex-direction: column;
+        }
+
+        .product-title {
+            font-size: 2rem;
+            color: #2c3e50;
+            margin-bottom: 0.3rem;
+        }
+
+        .product-author {
+            font-size: 1.1rem;
+            color: #718096;
+            margin-bottom: 0.8rem;
+        }
+
+        /* Avaliação e Fornecedor */
+        .product-meta {
+            display: flex;
+            flex-direction: column;
+            gap: 0.4rem;
+            margin-bottom: 1.2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid #eee;
+        }
+
+        .rating {
+            color: #f39c12;
+            font-weight: bold;
+            font-size: 0.95rem;
+        }
+
+        .rating span {
+            color: #718096;
+            font-weight: normal;
+        }
+
+        .vendor-info {
+            font-size: 0.9rem;
+            color: #4a5568;
+        }
+
+        .vendor-info strong {
+            color: #2c3e50;
+        }
+
+        /* Preço */
+        .price-box {
+            margin-bottom: 1.5rem;
+        }
+
+        .old-price {
+            text-decoration: line-through;
+            color: #a0aec0;
+            font-size: 1rem;
+        }
+
+        .current-price {
+            font-size: 2.2rem;
+            color: #e74c3c;
+            font-weight: bold;
+        }
+
+        .installments {
+            font-size: 0.9rem;
+            color: #27ae60;
+            font-weight: 500;
+        }
+
+        /* Seção de Compra e Quantidade */
+        .purchase-actions {
+            display: flex;
+            flex-direction: column;
+            gap: 1rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .quantity-selector {
+            display: flex;
+            align-items: center;
+            gap: 0.5rem;
+        }
+
+        .quantity-selector label {
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .quantity-selector input {
+            width: 60px;
+            padding: 0.5rem;
+            text-align: center;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 1rem;
+        }
+
+        .buttons-group {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .btn-buy-now {
+            flex: 1;
+            min-width: 160px;
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 0.9rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-buy-now:hover {
+            background-color: #219653;
+        }
+
+        .btn-add-cart {
+            flex: 1;
+            min-width: 160px;
+            background-color: #2c3e50;
+            color: white;
+            border: none;
+            padding: 0.9rem;
+            border-radius: 4px;
+            font-size: 1rem;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        .btn-add-cart:hover {
+            background-color: #34495e;
+        }
+
+        .btn-favorite-icon {
+            background: #fff;
+            border: 1px solid #cbd5e0;
+            padding: 0.9rem 1.2rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-size: 1.1rem;
+            transition: all 0.2s;
+        }
+
+        .btn-favorite-icon:hover {
+            border-color: #e74c3c;
+            color: #e74c3c;
+        }
+
+        /* Cálculo de Frete */
+        .shipping-calculator {
+            background-color: #f7fafc;
+            padding: 1rem;
+            border-radius: 6px;
+            border: 1px solid #e2e8f0;
+        }
+
+        .shipping-calculator h4 {
+            font-size: 0.95rem;
+            color: #2c3e50;
+            margin-bottom: 0.5rem;
+        }
+
+        .shipping-form {
+            display: flex;
+            gap: 0.5rem;
+        }
+
+        .shipping-form input {
+            flex: 1;
+            padding: 0.5rem;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+        }
+
+        .shipping-form button {
+            background-color: #edf2f7;
+            border: 1px solid #cbd5e0;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            font-weight: bold;
+            color: #2c3e50;
+        }
+
+        .shipping-form button:hover {
+            background-color: #e2e8f0;
+        }
+
+        /* --- ABA DE INFORMAÇÕES DETALHADAS --- */
+        .details-section {
+            background: white;
+            padding: 2rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+            margin-bottom: 2rem;
+        }
+
+        .details-section h3 {
+            color: #2c3e50;
+            margin-bottom: 1rem;
+            border-bottom: 2px solid #f1f1f1;
+            padding-bottom: 0.5rem;
+        }
+
+        .synopsis {
+            line-height: 1.6;
+            color: #4a5568;
+            margin-bottom: 2rem;
+        }
+
+        /* Tabela de Especificações */
+        .specs-table {
+            width: 100%;
+            border-collapse: collapse;
+            margin-top: 1rem;
+        }
+
+        .specs-table tr:nth-child(even) {
+            background-color: #f8fafc;
+        }
+
+        .specs-table td {
+            padding: 0.8rem;
+            border-bottom: 1px solid #edf2f7;
+            font-size: 0.95rem;
+        }
+
+        .specs-table td.label {
+            font-weight: bold;
+            color: #2c3e50;
+            width: 30%;
+        }
+
+        /* --- LIVROS RECOMENDADOS --- */
+        .related-title {
+            font-size: 1.5rem;
+            color: #2c3e50;
+            margin-bottom: 1rem;
+        }
+
+        .book-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+            gap: 1.5rem;
+        }
+
+        .book-card {
+            background: white;
+            padding: 1rem;
+            border-radius: 8px;
+            box-shadow: 0 2px 5px rgba(0,0,0,0.05);
+            text-align: center;
+        }
+
+        .book-cover {
+            height: 180px;
+            background-color: #e2e8f0;
+            margin-bottom: 1rem;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #718096;
+            font-weight: bold;
+            border-radius: 4px;
+        }
+
+        .book-card h3 {
+            font-size: 1.1rem;
+            margin-bottom: 0.5rem;
+        }
+
+        .book-card p {
+            color: #e74c3c;
+            font-weight: bold;
+            margin-bottom: 1rem;
+        }
+
+        .btn-buy {
+            background-color: #27ae60;
+            color: white;
+            border: none;
+            padding: 0.5rem 1rem;
+            border-radius: 4px;
+            cursor: pointer;
+            width: 100%;
+        }
+
+        .btn-buy:hover {
+            background-color: #219653;
+        }
+    </style>
+</head>
+<body>
+
+    <!-- CABEÇALHO DA LIVRARIA -->
+    <header>
+        <a href="index.html" class="logo">📚 Multicultural</a>
+        
+        <div class="search-container">
+            <input type="text" placeholder="Pesquisar livros, autores, gêneros...">
+            <button>Buscar</button>
+        </div>
+
+        <div class="header-actions">
+            <a href="index.html" class="btn-login-header">Início</a>
+            
+            <div class="hamburger-menu" onclick="toggleMenu()">
+                <div class="hamburger-icon">☰</div>
+                <div class="dropdown-menu" id="dropdownMenu">
+                    <a href="carrinho.html">🛒 Meu Carrinho</a>
+                    <a href="favoritos.html">⭐ Favoritos</a>
+                    <a href="métodos de pagamento.html">💳 Métodos de Pagamento</a>
+                    <a href="#">📦 Meus Pedidos</a>
+                    <a href="#">⚙️ Configurações</a>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <!-- CONTEÚDO PRINCIPAL -->
+    <main>
+        <!-- Migalhas de Pão -->
+        <div class="breadcrumb">
+            <a href="index.html">Início</a> &gt; <a href="#">Literatura Latino-Americana</a> &gt; Cem Anos de Solidão
+        </div>
+
+        <!-- Seção Principal do Produto -->
+        <div class="product-container">
+            
+            <!-- Capa do Livro -->
+            <div class="product-gallery">
+                <div class="main-cover">Capa do Livro</div>
+            </div>
+
+            <!-- Informações Comerciais e Botões -->
+            <div class="product-info">
+                <h1 class="product-title">Cem Anos de Solidão</h1>
+                <p class="product-author">Por Gabriel García Márquez</p>
+
+                <div class="product-meta">
+                    <div class="rating">
+                        ★ ★ ★ ★ ★ <span>4.9 (128 avaliações)</span>
+                    </div>
+                    <div class="vendor-info">
+                        Vendido por: <strong>Editora Record</strong>
+                    </div>
+                    <div class="vendor-info">
+                        Entregue por: <strong>Livraria Multicultural</strong>
+                    </div>
+                    <div class="vendor-info" style="color: #27ae60; font-weight: bold; margin-top: 0.3rem;">
+                        ✓ Em Estoque
+                    </div>
+                </div>
+
+                <!-- Bloco de Preço -->
+                <div class="price-box">
+                    <span class="old-price">R$ 69,90</span>
+                    <div class="current-price">R$ 49,90</div>
+                    <p class="installments">ou 2x de R$ 24,95 sem juros no cartão</p>
+                </div>
+
+                <!-- Quantidade e Ações -->
+                <div class="purchase-actions">
+                    <div class="quantity-selector">
+                        <label for="qtd">Quantidade:</label>
+                        <input type="number" id="qtd" value="1" min="1" max="10">
+                    </div>
+
+                    <div class="buttons-group">
+                        <button class="btn-buy-now" onclick="comprarAgora()">Comprar Agora</button>
+                        <button class="btn-add-cart" onclick="adicionarAoCarrinho()">🛒 Adicionar ao Carrinho</button>
+                        <button class="btn-favorite-icon" onclick="toggleFavorito(this)" title="Adicionar aos Favoritos">⭐</button>
+                    </div>
+                </div>
+
+                <!-- Simulação de Frete -->
+                <div class="shipping-calculator">
+                    <h4>Calcular Frete e Prazo</h4>
+                    <div class="shipping-form">
+                        <input type="text" placeholder="Digite seu CEP" id="cepInput" maxlength="9">
+                        <button onclick="calcularFrete()">Calcular</button>
+                    </div>
+                    <div id="shippingResult" style="margin-top: 0.5rem; font-size: 0.85rem; color: #27ae60;"></div>
+                </div>
+
+            </div>
+        </div>
+
+        <!-- Detalhes Técnicos e Sinopse -->
+        <div class="details-section">
+            <h3>Sinopse</h3>
+            <p class="synopsis">
+                Em "Cem Anos de Solidão", um dos maiores clássicos da literatura mundial, Gabriel García Márquez narra a incrível história da família Buendía na fictícia aldeia de Macondo. Com o realismo mágico como marca registrada, a obra percorre gerações marcadas por paixões, guerras, solidão e o inelutável destino de uma linhagem fascinante.
+            </p>
+
+            <h3>Especificações do Produto</h3>
+            <table class="specs-table">
+                <tr>
+                    <td class="label">Fornecedor / Editora</td>
+                    <td>Editora Record</td>
+                </tr>
+                <tr>
+                    <td class="label">Título do Livro</td>
+                    <td>Cem Anos de Solidão</td>
+                </tr>
+                <tr>
+                    <td class="label">Autor</td>
+                    <td>Gabriel García Márquez</td>
+                </tr>
+                <tr>
+                    <td class="label">Idioma</td>
+                    <td>Português</td>
+                </tr>
+                <tr>
+                    <td class="label">Número de Páginas</td>
+                    <td>448</td>
+                </tr>
+                <tr>
+                    <td class="label">Tipo de Capa</td>
+                    <td>Brochura</td>
+                </tr>
+                <tr>
+                    <td class="label">ISBN</td>
+                    <td>978-8501012074</td>
+                </tr>
+                <tr>
+                    <td class="label">Ano de Publicação</td>
+                    <td>2021 (Edição Comemorativa)</td>
+                </tr>
+            </table>
+        </div>
+
+        <!-- Livros Relacionados -->
+        <h3 class="related-title">Quem comprou este livro também levou:</h3>
+        <div class="book-grid">
+            <div class="book-card">
+                <div class="book-cover">Capa do Livro</div>
+                <h3>O Amor nos Tempos do Cólera</h3>
+                <p>R$ 44,90</p>
+                <button class="btn-buy" onclick="alert('Item adicionado ao carrinho!')">Adicionar ao Carrinho</button>
+            </div>
+            <div class="book-card">
+                <div class="book-cover">Capa do Livro</div>
+                <h3>O Pequeno Príncipe</h3>
+                <p>R$ 29,90</p>
+                <button class="btn-buy" onclick="alert('Item adicionado ao carrinho!')">Adicionar ao Carrinho</button>
+            </div>
+            <div class="book-card">
+                <div class="book-cover">Capa do Livro</div>
+                <h3>Ensaios sobre a Cegueira</h3>
+                <p>R$ 52,00</p>
+                <button class="btn-buy" onclick="alert('Item adicionado ao carrinho!')">Adicionar ao Carrinho</button>
+            </div>
+        </div>
+
+    </main>
+
+    <!-- SCRIPTS -->
+    <script>
+        // Abrir/Fechar Menu Hambúrguer
+        function toggleMenu() {
+            const menu = document.getElementById('dropdownMenu');
+            menu.style.display = menu.style.display === 'block' ? 'none' : 'block';
+        }
+
+        window.onclick = function(event) {
+            if (!event.target.matches('.hamburger-icon') && !event.target.closest('.dropdown-menu')) {
+                document.getElementById('dropdownMenu').style.display = 'none';
+            }
+        }
+
+        // Funções de Compra
+        function adicionarAoCarrinho() {
+            const qtd = document.getElementById('qtd').value;
+            alert(`${qtd} unidade(s) de "Cem Anos de Solidão" adicionada(s) ao carrinho!`);
+        }
+
+        function comprarAgora() {
+            alert('Redirecionando diretamente para o Checkout...');
+            window.location.href = "carrinho.html";
+        }
+
+        // Favoritar
+        function toggleFavorito(btn) {
+            if (btn.style.color === 'rgb(231, 76, 60)' || btn.style.color === 'red') {
+                btn.style.color = 'inherit';
+                alert('Removido dos favoritos!');
+            } else {
+                btn.style.color = '#e74c3c';
+                alert('Adicionado aos favoritos com sucesso!');
+            }
+        }
+
+        // Simulação de Frete
+        function calcularFrete() {
+            const cep = document.getElementById('cepInput').value;
+            const res = document.getElementById('shippingResult');
+            
+            if (cep.trim() === "") {
+                res.style.color = "#e74c3c";
+                res.innerHTML = "Por favor, informe um CEP válido.";
+            } else {
+                res.style.color = "#27ae60";
+                res.innerHTML = "🚚 Frete Padrão: <strong>R$ 9,90</strong> (Chega em até 4 dias úteis)";
+            }
+        }
+    </script>
+</body>
+</html>
